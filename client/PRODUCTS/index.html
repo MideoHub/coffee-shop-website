@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Products - Coffee Shop</title>
+    <link rel="stylesheet" href="../assets/css/styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="logo">Coffee Shop</div>
+      <nav class="navbar">
+        <a href="../HOME/index.html">Home</a>
+        <a href="../MENU/index.html">Menu</a>
+        <a href="index.html">Products</a>
+        <a href="../Cart/index.html">Cart</a>
+      </nav>
+      <a href="../Book/index.html" class="btn">Book a Table</a>
+      <div class="menu-toggle">
+        <i class="fa-solid fa-bars icon" onclick="toggleMenu()"></i>
+        <div class="menu">
+          <ul>
+            <li><a href="../HOME/index.html">Home</a></li>
+            <li><a href="../MENU/index.html">Menu</a></li>
+            <li><a href="index.html">Products</a></li>
+            <li><a href="../Cart/index.html">Cart</a></li>
+            <li><a href="../Book/index.html">Book a Table</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+    <section>
+      <div class="container">
+        <div class="box">
+          <div class="img-container">
+            <img src="../assets/images/p1.jpeg" alt="Caffè Americano" />
+            <div class="box-btns">
+              <a
+                href="#"
+                class="box-btn view-btn"
+                data-name="Caffè Americano"
+                data-description="A rich, full-bodied coffee with a hint of caramel."
+                data-image="../assets/images/p1.jpeg"
+                data-nutrition="Serving Size: 16 fl oz|Calories: 15|Calories from Fat: 0"
+              >
+                View
+              </a>
+              <a href="#" class="box-btn cart-btn" data-name="Caffè Americano" data-image="../assets/images/p1.jpeg">Add to Cart</a>
+            </div>
+          </div>
+          <div class="coffee-item">
+            <h2>Caffè Americano</h2>
+            <p>$2.10</p>
+          </div>
+        </div>
+        <div class="box">
+          <div class="img-container">
+            <img src="../assets/images/p2.jpeg" alt="Caffè Misto" />
+            <div class="box-btns">
+              <a
+                href="#"
+                class="box-btn view-btn"
+                data-name="Caffè Misto"
+                data-description="A one-to-one combination of fresh-brewed coffee and steamed milk."
+                data-image="../assets/images/p2.jpeg"
+                data-nutrition="Serving Size: 16 fl oz|Calories: 110|Calories from Fat: 35"
+              >
+                View
+              </a>
+              <a href="#" class="box-btn cart-btn" data-name="Caffè Misto" data-image="../assets/images/p2.jpeg">Add to Cart</a>
+            </div>
+          </div>
+          <div class="coffee-item">
+            <h2>Caffè Misto</h2>
+            <p>$2.60</p>
+          </div>
+        </div>
+        <div class="box">
+          <div class="img-container">
+            <img src="../assets/images/p3.jpeg" alt="Espresso" />
+            <div class="box-btns">
+              <a
+                href="#"
+                class="box-btn view-btn"
+                data-name="Espresso"
+                data-description="Rich and full-bodied with a hint of caramel."
+                data-image="../assets/images/p3.jpeg"
+                data-nutrition="Serving Size: 1.5 fl oz|Calories: 5|Calories from Fat: 0"
+              >
+                View
+              </a>
+              <a href="#" class="box-btn cart-btn" data-name="Espresso" data-image="../assets/images/p3.jpeg">Add to Cart</a>
+            </div>
+          </div>
+          <div class="coffee-item">
+            <h2>Espresso</h2>
+            <p>$2.79</p>
+          </div>
+        </div>
+        <div class="box">
+          <div class="img-container">
+            <img src="../assets/images/p4.jpeg" alt="Espresso Macchiato" />
+            <div class="box-btns">
+              <a
+                href="#"
+                class="box-btn view-btn"
+                data-name="Espresso Macchiato"
+                data-description="A rich, full-bodied espresso with a dash of steamed milk."
+                data-image="../assets/images/p4.jpeg"
+                data-nutrition="Serving Size: 1.5 fl oz|Calories: 15|Calories from Fat: 5"
+              >
+                View
+              </a>
+              <a href="#" class="box-btn cart-btn" data-name="Espresso Macchiato" data-image="../assets/images/p4.jpeg">Add to Cart</a>
+            </div>
+          </div>
+          <div class="coffee-item">
+            <h2>Espresso Macchiato</h2>
+            <p>$2.05</p>
+          </div>
+        </div>
+        <div class="box">
+          <div class="img-container">
+            <img src="../assets/images/p5.jpeg" alt="Dark Roast Coffee" />
+            <div class="box-btns">
+              <a
+                href="#"
+                class="box-btn view-btn"
+                data-name="Dark Roast Coffee"
+                data-description="A full-bodied coffee with bold, robust flavors."
+                data-image="../assets/images/p5.jpeg"
+                data-nutrition="Serving Size: 16 fl oz|Calories: 5|Calories from Fat: 0"
+              >
+                View
+              </a>
+              <a href="#" class="box-btn cart-btn" data-name="Dark Roast Coffee" data-image="../assets/images/p5.jpeg">Add to Cart</a>
+            </div>
+          </div>
+          <div class="coffee-item">
+            <h2>Dark Roast Coffee</h2>
+            <p>$2.20</p>
+          </div>
+        </div>
+        <div class="box">
+          <div class="img-container">
+            <img src="../assets/images/p6.jpeg" alt="Flat White" />
+            <div class="box-btns">
+              <a
+                href="#"
+                class="box-btn view-btn"
+                data-name="Flat White"
+                data-description="Smooth ristretto shots of espresso with velvety steamed milk."
+                data-image="../assets/images/p6.jpeg"
+                data-nutrition="Serving Size: 12 fl oz|Calories: 170|Calories from Fat: 90"
+              >
+                View
+              </a>
+              <a href="#" class="box-btn cart-btn" data-name="Flat White" data-image="../assets/images/p6.jpeg">Add to Cart</a>
+            </div>
+          </div>
+          <div class="coffee-item">
+            <h2>Flat White</h2>
+            <p>$2.80</p>
+          </div>
+        </div>
+        <div class="box">
+          <div class="img-container">
+            <img src="../assets/images/Coffee Shop or Café Logo Design.jpeg" alt="Decaf Roast" />
+            <div class="box-btns">
+              <a
+                href="#"
+                class="box-btn view-btn"
+                data-name="Decaf Roast"
+                data-description="A decaffeinated coffee with a smooth, rich flavor."
+                data-image="../assets/images/Coffee Shop or Café Logo Design.jpeg"
+                data-nutrition="Serving Size: 16 fl oz|Calories: 5|Calories from Fat: 0"
+              >
+                View
+              </a>
+              <a href="#" class="box-btn cart-btn" data-name="Decaf Roast" data-image="../assets/images/Coffee Shop or Café Logo Design.jpeg">Add to Cart</a>
+            </div>
+          </div>
+          <div class="coffee-item">
+            <h2>Decaf Roast</h2>
+            <p>$2.25</p>
+          </div>
+        </div>
+      </div>
+      <div class="overlay" id="overlay">
+        <div class="modal">
+          <span class="close-btn" id="closeBtn">×</span>
+          <h2 id="modalTitle"></h2>
+          <p id="modalDescription"></p>
+          <img id="modalImage" src="" alt="" style="width: 100%" />
+          <h3>Nutritional Information</h3>
+          <hr />
+          <div id="modalNutrition"></div>
+          <hr />
+        </div>
+      </div>
+    </section>
+    <footer class="footer">
+      <p>© 2024 Coffee Shop. All rights reserved.</p>
+    </footer>
+    <script src="../assets/js/scripts.js"></script>
+  </body>
+</html>
