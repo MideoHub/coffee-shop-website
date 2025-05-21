@@ -1,7 +1,8 @@
 <?php
+session_start();
 require_once '../assets/db_connect.php';
 
-$stmt = $pdo->query("SELECT * FROM products");
+$stmt = $pdo->query("SELECT * FROM products WHERE category = 'Products'");
 $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Update image paths for products page
@@ -16,6 +17,13 @@ $image_map = [
     'Cappuccino' => '../assets/images/cappuccino.jpg',
     'Blonde Roast' => '../assets/images/caffe-americano.jpg'
 ];
+
+// Determine the Home link based on user role
+$homeLink = (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') ? '../admin/admin.php' : '../HOME/index.php';
+
+// Determine login/logout link based on session
+$authLinkText = isset($_SESSION['user_id']) ? 'Logout' : 'Login';
+$authLinkHref = isset($_SESSION['user_id']) ? '../Logout/index.php' : '../Login/index.php';
 ?>
 
 <!DOCTYPE html>
@@ -31,53 +39,117 @@ $image_map = [
     <header class="header">
         <div class="logo">Coffee Shop</div>
         <nav class="navbar">
-            <a href="../HOME/index.php">Home</a>
+            <a href="<?php echo $homeLink; ?>">Home</a>
             <a href="../MENU/index.php">Menu</a>
             <a href="index.php">Products</a>
             <a href="../Cart/index.php">Cart</a>
+            <a href="<?php echo $authLinkHref; ?>" class="btn"><?php echo $authLinkText; ?></a>
         </nav>
         <a href="../Book/index.php" class="btn">Book a Table</a>
         <div class="menu-toggle">
             <i class="fa-solid fa-bars icon" onclick="toggleMenu()"></i>
             <div class="menu">
                 <ul>
-                    <li><a href="../HOME/index.php">Home</a></li>
+                    <li><a href="<?php echo $homeLink; ?>">Home</a></li>
                     <li><a href="../MENU/index.php">Menu</a></li>
                     <li><a href="index.php">Products</a></li>
                     <li><a href="../Cart/index.php">Cart</a></li>
                     <li><a href="../Book/index.php">Book a Table</a></li>
+                    <li><a href="<?php echo $authLinkHref; ?>"><?php echo $authLinkText; ?></a></li>
                 </ul>
             </div>
         </div>
     </header>
+
     <section>
+        <div class="edit-container">
+            <h1>Choose Your Product</h1>
+            <form method="GET" action="index.php" class="form">
+                <div class="form-group">
+                    <select name="id" class="input" required>
+                        <option value="">Select a Product</option>
+                        <?php foreach ($products as $product): ?>
+                            <option value="<?php echo $product['id']; ?>">
+                                <?php echo htmlspecialchars($product['name'] ?? ''); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div>
+                    <button type="submit" class="btn-form">View Product</button>
+                </div>
+            </form>
+        </div>
+
         <div class="container">
-            <?php foreach ($products as $product): ?>
-            <div class="box">
-                <div class="img-container">
-                    <img src="<?php echo htmlspecialchars($image_map[$product['name']]); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>" />
-                    <div class="box-btns">
-                        <a
-                            href="#"
-sturdy
-                            class="box-btn view-btn"
-                            data-name="<?php echo htmlspecialchars($product['name']); ?>"
-                            data-description="<?php echo htmlspecialchars($product['description']); ?>"
-                            data-image="<?php echo htmlspecialchars($image_map[$product['name']]); ?>"
-                            data-nutrition="<?php echo htmlspecialchars($product['nutrition']); ?>"
-                        >
-                            View
-                        </a>
-                        <a href="#" class="box-btn cart-btn" data-name="<?php echo htmlspecialchars($product['name']); ?>" data-image="<?php echo htmlspecialchars($image_map[$product['name']]); ?>">Add to Cart</a>
+            <?php
+            $selected_product = null;
+            if (isset($_GET['id'])) {
+                $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+                foreach ($products as $product) {
+                    if ($product['id'] == $id) {
+                        $selected_product = $product;
+                        break;
+                    }
+                }
+            }
+            ?>
+
+            <?php if ($selected_product): ?>
+                <div class="box">
+                    <div class="img-container">
+                        <?php
+                        $image_path = isset($image_map[$selected_product['name']]) ? $image_map[$selected_product['name']] : '../assets/images/default.jpg';
+                        $alt_text = htmlspecialchars($selected_product['name'] ?? 'Default Product');
+                        ?>
+                        <img src="<?php echo htmlspecialchars($image_path); ?>" alt="<?php echo $alt_text; ?>" />
+                        <div class="box-btns">
+                            <a href="#"
+                               class="box-btn view-btn"
+                               data-name="<?php echo htmlspecialchars($selected_product['name'] ?? ''); ?>"
+                               data-description="<?php echo htmlspecialchars($selected_product['description'] ?? ''); ?>"
+                               data-image="<?php echo htmlspecialchars($image_path); ?>"
+                               data-nutrition="<?php echo htmlspecialchars($selected_product['nutrition'] ?? ''); ?>">
+                                View
+                            </a>
+                            <a href="#" class="box-btn cart-btn" data-name="<?php echo htmlspecialchars($selected_product['name'] ?? ''); ?>" data-image="<?php echo htmlspecialchars($image_path); ?>">Add to Cart</a>
+                        </div>
+                    </div>
+                    <div class="coffee-item">
+                        <h2><?php echo htmlspecialchars($selected_product['name'] ?? ''); ?></h2>
+                        <p>$<?php echo number_format($selected_product['price'] ?? 0, 2); ?></p>
                     </div>
                 </div>
-                <div class="coffee-item">
-                    <h2><?php echo htmlspecialchars($product['name']); ?></h2>
-                    <p>$<?php echo number_format($product['price'], 2); ?></p>
-                </div>
-            </div>
-            <?php endforeach; ?>
+            <?php else: ?>
+                <?php foreach ($products as $product): ?>
+                    <div class="box">
+                        <div class="img-container">
+                            <?php
+                            $image_path = isset($image_map[$product['name']]) ? $image_map[$product['name']] : '../assets/images/default.jpg';
+                            $alt_text = htmlspecialchars($product['name'] ?? 'Default Product');
+                            ?>
+                            <img src="<?php echo htmlspecialchars($image_path); ?>" alt="<?php echo $alt_text; ?>" />
+                            <div class="box-btns">
+                                <a href="#"
+                                   class="box-btn view-btn"
+                                   data-name="<?php echo htmlspecialchars($product['name'] ?? ''); ?>"
+                                   data-description="<?php echo htmlspecialchars($product['description'] ?? ''); ?>"
+                                   data-image="<?php echo htmlspecialchars($image_path); ?>"
+                                   data-nutrition="<?php echo htmlspecialchars($product['nutrition'] ?? ''); ?>">
+                                    View
+                                </a>
+                                <a href="#" class="box-btn cart-btn" data-name="<?php echo htmlspecialchars($product['name'] ?? ''); ?>" data-image="<?php echo htmlspecialchars($image_path); ?>">Add to Cart</a>
+                            </div>
+                        </div>
+                        <div class="coffee-item">
+                            <h2><?php echo htmlspecialchars($product['name'] ?? ''); ?></h2>
+                            <p>$<?php echo number_format($product['price'] ?? 0, 2); ?></p>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </div>
+
         <div class="overlay" id="overlay">
             <div class="modal">
                 <span class="close-btn" id="closeBtn">×</span>
@@ -91,9 +163,11 @@ sturdy
             </div>
         </div>
     </section>
+
     <footer class="footer">
         <p>© 2024 Coffee Shop. All rights reserved.</p>
     </footer>
+
     <script src="../assets/js/scripts.js"></script>
 </body>
 </html>

@@ -10,6 +10,13 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 // Fetch all bookings
 $stmt = $pdo->query("SELECT b.*, u.name as user_name FROM bookings b LEFT JOIN users u ON b.user_id = u.id ORDER BY b.created_at DESC");
 $bookings = $stmt->fetchAll();
+
+// Home link for admins
+$homeLink = 'admin.php';
+
+// Auth link (always Logout for admins)
+$authLinkText = 'Logout';
+$authLinkHref = '../Logout/index.php';
 ?>
 
 <!DOCTYPE html>
@@ -45,9 +52,10 @@ $bookings = $stmt->fetchAll();
     <header class="header">
         <div class="logo">Coffee Shop</div>
         <nav class="navbar">
-            <a href="admin.php">Admin Dashboard</a>
+            <a href="<?php echo $homeLink; ?>">Home</a>
+            <a href="<?php echo $authLinkHref; ?>" class="btn"><?php echo $authLinkText; ?></a>
         </nav>
-        <a href="../Logout/index.php" class="btn">Logout</a>
+        <a href="../Book/index.php" class="btn">Book a Table</a>
     </header>
 
     <section>
@@ -70,14 +78,14 @@ $bookings = $stmt->fetchAll();
                     <tbody>
                         <?php foreach ($bookings as $booking): ?>
                             <tr>
-                                <td><?php echo htmlspecialchars($booking['id']); ?></td>
-                                <td><?php echo htmlspecialchars($booking['user_name'] ?: 'Guest'); ?></td>
-                                <td><?php echo htmlspecialchars($booking['name']); ?></td>
-                                <td><?php echo htmlspecialchars($booking['email']); ?></td>
-                                <td><?php echo htmlspecialchars($booking['booking_date']); ?></td>
-                                <td><?php echo htmlspecialchars($booking['booking_time']); ?></td>
-                                <td><?php echo htmlspecialchars($booking['persons']); ?></td>
-                                <td><?php echo htmlspecialchars($booking['created_at']); ?></td>
+                                <td><?php echo htmlspecialchars($booking['id'] ?? ''); ?></td>
+                                <td><?php echo htmlspecialchars($booking['user_name'] ?? 'Guest'); ?></td>
+                                <td><?php echo htmlspecialchars($booking['name'] ?? ''); ?></td>
+                                <td><?php echo htmlspecialchars($booking['email'] ?? ''); ?></td>
+                                <td><?php echo htmlspecialchars($booking['booking_date'] ?? ''); ?></td>
+                                <td><?php echo htmlspecialchars($booking['booking_time'] ?? ''); ?></td>
+                                <td><?php echo htmlspecialchars($booking['persons'] ?? ''); ?></td>
+                                <td><?php echo htmlspecialchars($booking['created_at'] ?? ''); ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>

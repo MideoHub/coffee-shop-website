@@ -5,6 +5,13 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     header('Location: ../Login/index.php');
     exit;
 }
+
+// Home link for admins
+$homeLink = 'admin.php';
+
+// Auth link (always Logout for admins)
+$authLinkText = 'Logout';
+$authLinkHref = '../Logout/index.php';
 ?>
 
 <!DOCTYPE html>
@@ -47,22 +54,23 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     <header class="header">
         <div class="logo">Coffee Shop</div>
         <nav class="navbar">
-            <a href="../HOME/index.php">Home</a>
+            <a href="<?php echo $homeLink; ?>">Home</a>
             <a href="../MENU/index.php">Menu</a>
             <a href="../PRODUCTS/index.php">Products</a>
             <a href="../Cart/index.php">Cart</a>
+            <a href="<?php echo $authLinkHref; ?>" class="btn"><?php echo $authLinkText; ?></a>
         </nav>
         <a href="../Book/index.php" class="btn">Book a Table</a>
         <div class="menu-toggle">
             <i class="fa-solid fa-bars icon" onclick="toggleMenu()"></i>
             <div class="menu">
                 <ul>
-                    <li><a href="../HOME/index.php">Home</a></li>
+                    <li><a href="<?php echo $homeLink; ?>">Home</a></li>
                     <li><a href="../MENU/index.php">Menu</a></li>
                     <li><a href="../PRODUCTS/index.php">Products</a></li>
                     <li><a href="../Cart/index.php">Cart</a></li>
                     <li><a href="../Book/index.php">Book a Table</a></li>
-                    <li><a href="../Logout/index.php">Logout</a></li>
+                    <li><a href="<?php echo $authLinkHref; ?>"><?php echo $authLinkText; ?></a></li>
                 </ul>
             </div>
         </div>
@@ -70,11 +78,11 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 
     <section>
         <div class="admin-container">
-            <h1>Welcome, <?php echo htmlspecialchars($_SESSION['user_name']); ?> (Admin)</h1>
+            <h1>Welcome, <?php echo htmlspecialchars($_SESSION['user_name'] ?? 'Admin'); ?> (Admin)</h1>
             <div class="admin-links">
                 <a href="manage_products.php">Manage Products</a>
                 <a href="view_bookings.php">View Bookings</a>
-                <a href="userinterface.php">User Interface</a>
+                <a href="manage_cart.php">Manage Cart</a>
             </div>
         </div>
     </section>

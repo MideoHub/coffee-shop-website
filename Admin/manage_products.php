@@ -14,17 +14,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_product'])) {
     $price = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
     $image = filter_input(INPUT_POST, 'image', FILTER_SANITIZE_SPECIAL_CHARS);
     $nutrition = filter_input(INPUT_POST, 'nutrition', FILTER_SANITIZE_SPECIAL_CHARS);
+    $category = filter_input(INPUT_POST, 'category', FILTER_SANITIZE_STRING);
 
-    if ($name && $description && $price && $image && $nutrition) {
+    if ($name && $description && $price && $image && $nutrition && in_array($category, ['Menu', 'Products'])) {
         try {
-            $stmt = $pdo->prepare("INSERT INTO products (name, description, price, image, nutrition) VALUES (?, ?, ?, ?, ?)");
-            $stmt->execute([$name, $description, $price, $image, $nutrition]);
+            $stmt = $pdo->prepare("INSERT INTO products (name, description, price, image, nutrition, category) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt->execute([$name, $description, $price, $image, $nutrition, $category]);
             $success = "Product added successfully!";
         } catch (PDOException $e) {
             $error = "Error adding product: " . $e->getMessage();
         }
     } else {
-        $error = "Please fill all fields.";
+        $error = "Please fill all fields correctly.";
     }
 }
 
@@ -43,6 +44,13 @@ if (isset($_GET['delete'])) {
 // Fetch all products
 $stmt = $pdo->query("SELECT * FROM products");
 $products = $stmt->fetchAll();
+
+// Home link for admins
+$homeLink = 'admin.php';
+
+// Auth link (always Logout for admins)
+$authLinkText = 'Logout';
+$authLinkHref = '../Logout/index.php';
 ?>
 
 <!DOCTYPE html>
@@ -100,9 +108,10 @@ $products = $stmt->fetchAll();
     <header class="header">
         <div class="logo">Coffee Shop</div>
         <nav class="navbar">
-            <a href="admin.php">Admin Dashboard</a>
+            <a href="<?php echo $homeLink; ?>">Home</a>
+            <a href="<?php echo $authLinkHref; ?>" class="btn"><?php echo $authLinkText; ?></a>
         </nav>
-        <a href="../Logout/index.php" class="btn">Logout</a>
+        <!-- <a href="../Book/index.php" class="btn">Book a Table</a> -->
     </header>
 
     <section>
@@ -110,10 +119,10 @@ $products = $stmt->fetchAll();
             <h1>Manage Products</h1>
 
             <?php if (isset($success)): ?>
-                <div class="message success"><?php echo htmlspecialchars($success); ?></div>
+                <div class="message success"><?php echo htmlspecialchars($success ?? ''); ?></div>
             <?php endif; ?>
             <?php if (isset($error)): ?>
-                <div class="message error"><?php echo htmlspecialchars($error); ?></div>
+                <div class="message error"><?php echo htmlspecialchars($error ?? ''); ?></div>
             <?php endif; ?>
 
             <!-- Add Product Form -->
@@ -135,6 +144,13 @@ $products = $stmt->fetchAll();
                     <div class="form-group">
                         <input type="text" name="nutrition" class="input" placeholder="Nutrition Info" required />
                     </div>
+                    <div class="form-group">
+                        <label for="category">Category:</label>
+                        <select name="category" class="input" required>
+                            <option value="Products">Products</option>
+                            <option value="Menu">Menu</option>
+                        </select>
+                    </div>
                     <div>
                         <button type="submit" name="add_product" class="btn-form">Add Product</button>
                     </div>
@@ -150,15 +166,17 @@ $products = $stmt->fetchAll();
                             <th>ID</th>
                             <th>Name</th>
                             <th>Price</th>
+                            <th>Category</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($products as $product): ?>
                             <tr>
-                                <td><?php echo htmlspecialchars($product['id']); ?></td>
-                                <td><?php echo htmlspecialchars($product['name']); ?></td>
-                                <td>$<?php echo htmlspecialchars($product['price']); ?></td>
+                                <td><?php echo htmlspecialchars($product['id'] ?? ''); ?></td>
+                                <td><?php echo htmlspecialchars($product['name'] ?? ''); ?></td>
+                                <td>$<?php echo htmlspecialchars($product['price'] ?? '0'); ?></td>
+                                <td><?php echo htmlspecialchars($product['category'] ?? ''); ?></td>
                                 <td>
                                     <a href="edit_product.php?id=<?php echo $product['id']; ?>">Edit</a> |
                                     <a href="?delete=<?php echo $product['id']; ?>" onclick="return confirm('Are you sure you want to delete this product?')">Delete</a>
