@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once '../assets/db_connect.php';
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
@@ -55,7 +54,7 @@ $authLinkHref = '../Logout/index.php';
             <a href="<?php echo $homeLink; ?>">Home</a>
             <a href="<?php echo $authLinkHref; ?>" class="btn"><?php echo $authLinkText; ?></a>
         </nav>
-        <a href="../Book/index.php" class="btn">Book a Table</a>
+        <!-- <a href="../Book/index.php" class="btn">Book a Table</a> -->
     </header>
 
     <section>

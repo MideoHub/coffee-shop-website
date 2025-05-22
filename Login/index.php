@@ -4,6 +4,7 @@ require_once '../assets/db_connect.php';
 // header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    
     $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
     $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_SPECIAL_CHARS);
 
@@ -47,23 +48,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <header class="header">
         <div class="logo">Coffee Shop</div>
-        <nav class="navbar">
+        <!-- <nav class="navbar">
             <a href="../HOME/index.php">Home</a>
             <a href="../MENU/index.php">Menu</a>
             <a href="../PRODUCTS/index.php">Products</a>
-            <a href="../Cart/index.php">Cart</a>
+            <a href="../Cart/index.php">Cart</a> -->
         </nav>
-        <a href="../Book/index.php" class="btn">Book a Table</a>
+        <!-- <a href="../Book/index.php" class="btn">Book a Table</a> -->
         <div class="menu-toggle">
             <i class="fa-solid fa-bars icon" onclick="toggleMenu()"></i>
             <div class="menu">
-                <ul>
+                <!-- <ul>
                     <li><a href="../HOME/index.php">Home</a></li>
                     <li><a href="../MENU/index.php">Menu</a></li>
                     <li><a href="../PRODUCTS/index.php">Products</a></li>
                     <li><a href="../Cart/index.php">Cart</a></li>
                     <li><a href="../Book/index.php">Book a Table</a></li>
-                </ul>
+                </ul> -->
             </div>
         </div>
     </header>

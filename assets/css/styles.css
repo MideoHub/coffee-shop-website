@@ -522,11 +522,14 @@ li .fa {
 
 /* Footer Styles */
 .footer {
+  
   background-color: #000000;
   color: #fff;
   text-align: center;
   padding: 5px;
   border-top: 0.5px solid #fdb347;
+
+
 }
 
 /* Responsive Styles */

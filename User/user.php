@@ -1,16 +1,13 @@
 <?php
+ob_start();
 session_start();
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-var_dump($_SESSION); // Debug: Check session variables
-
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
+if (!isset($_SESSION['user_id']) || strtolower($_SESSION['role']) !== 'user') {
     header('Location: ../Login/index.php');
     exit;
 }
+
+ob_end_flush();
 ?>
 
 <!DOCTYPE html>
@@ -21,17 +18,6 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
     <title>User Dashboard - Coffee Shop</title>
     <link rel="stylesheet" href="../assets/css/styles.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-    <style>
-        .user-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            text-align: center;
-        }
-        .user-container h1 {
-            color: #4b2e1e;
-        }
-    </style>
 </head>
 <body>
     <header class="header">
@@ -66,7 +52,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
     </section>
 
     <footer class="footer">
-        <p>© 2024 Coffee Shop. All rights reserved.</p>
+        <p>© 2025 Coffee Shop. All rights reserved.</p>
     </footer>
     <script src="../assets/js/scripts.js"></script>
 </body>

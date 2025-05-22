@@ -1,8 +1,10 @@
 <?php
 session_start();
+
 try {
     $pdo = new PDO("mysql:host=localhost;dbname=coffee_shop", "root", "");
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
 } catch (PDOException $e) {
     die("Connection failed: " . $e->getMessage());
 }

@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once '../assets/db_connect.php';
 
 $stmt = $pdo->query("SELECT * FROM products WHERE category = 'Products'");
